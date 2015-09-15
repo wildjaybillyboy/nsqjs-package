@@ -1,0 +1,1 @@
+###NSQJS package for Meteor
