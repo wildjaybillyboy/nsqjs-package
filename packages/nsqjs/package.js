@@ -2,7 +2,7 @@ Package.describe({
   name: 'nwdev:nsqjs',
   version: '0.0.1',
   // Brief, one-line summary of the package.
-  summary: '',
+  summary: 'Wrapper for Node "NSQJS" package',
   // URL to the Git repository containing the source code for this package.
   git: '',
   // By default, Meteor will default to using README.md for documentation.
@@ -14,7 +14,10 @@ Package.onUse(function(api) {
   api.versionsFrom('1.1.0.3');
   api.use('meteorhacks:npm', 'server');
   api.use(['npm-container', 'mongo'], 'server');
-  api.addFiles('server/nsqjs.js', ['client','server']);
+  api.use('mongo', 'client');
+  api.addFiles('server/nsqjs.js', 'server');
+  api.addFiles('client/client.js', 'client');
+  api.addFiles('lib/lib.js', ['server', 'client']);
 });
 
 Package.onTest(function(api) {

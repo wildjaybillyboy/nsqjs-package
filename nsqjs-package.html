@@ -10,8 +10,13 @@
 <template name="hello">
   <button>Click Me</button>
   <p>You've pressed the button {{counter}} times.</p>
-  {{#each messages}}
-    <p>Current Message ID: {{messageId}}</p>
-    <p>Current Message: {{messageBody}}</p>
-  {{/each}}
+  <ul>
+      <p>Messages:</p>
+      <li>
+          {{#each messages}}
+            <p>Current Message ID: {{messageId}}</p>
+            <p>Current Message: {{messageBody}}</p>
+          {{/each}}
+      </li>
+  </ul>
  </template>
