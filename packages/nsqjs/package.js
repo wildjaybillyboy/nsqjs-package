@@ -15,9 +15,9 @@ Package.onUse(function(api) {
   api.use('meteorhacks:npm', 'server');
   api.use(['npm-container', 'mongo'], 'server');
   api.use('mongo', 'client');
+  api.addFiles('lib/lib.js', ['server', 'client']);
   api.addFiles('server/nsqjs.js', 'server');
   api.addFiles('client/client.js', 'client');
-  api.addFiles('lib/lib.js', ['server', 'client']);
 });
 
 Package.onTest(function(api) {

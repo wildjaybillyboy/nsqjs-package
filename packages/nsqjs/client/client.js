@@ -1,5 +1,9 @@
 Meteor.startup (function() {
-    Meteor.subscribe('Messages');
+    Meteor.subscribe("messages");
 
-    console.log('client messages count ',Messages.find().count());
+    try {
+        console.log('client messages count ',Messages.find().count());
+    } catch (e) {
+        console.error(e);
+    }
 });

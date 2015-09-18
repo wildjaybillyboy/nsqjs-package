@@ -19,7 +19,7 @@ if (Meteor.isClient) {
     'click button': function () {
       // increment the counter when button is clicked
       Session.set('counter', Session.get('counter') + 1);
-      Meteor.call('writeMessage', '127.0.0.1', 4150, 'sample_topic', 'sample_message');
+      Meteor.call('writeMessage', '127.0.0.1', '4150', 'sample_topic', 'sample_message');
     }
   });
 }

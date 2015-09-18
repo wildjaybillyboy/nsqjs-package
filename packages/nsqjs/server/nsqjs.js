@@ -16,6 +16,11 @@ writer = {};
 nsq = Meteor.npmRequire('nsqjs');
 
 Meteor.startup (function () {
+    //publish collection to client
+    Meteor.publish("messages", function () {
+        return Messages.find();
+    });
+
     /*
     nsqjs Reader example
     var reader = new nsq.Reader('sample_topic', 'test_channel', {
@@ -28,20 +33,24 @@ Meteor.startup (function () {
     });
     */
     reader = new nsq.Reader('sample_topic', 'test_channel', {lookupdPollInterval:60,lookupdHTTPAddresses:'127.0.0.1:4161'});
-    var wrapConnect = Async.wrap(reader.connect);
-
+    reader.connect();
+//    var wrapConnect = Async.wrap(reader.connect);
+//    var result = wrapConnect.connect();
+//    console.log(result);
     reader.on('message', Meteor.bindEnvironment(function (msg) {
         Messages.insert({messageId:msg.id,messageBody:msg.body.toString()});
         console.log('received message '+msg.id+': '+msg.body.toString());
-        msg.wrapFinish = Async.wrap(this, 'finish');
+//        msg.wrapFinish = Async.wrap(this, 'finish');
+        msg.finish();
     }));
     console.log('finished server startup');
-    console.log('message count: ',Messages.find().count(),' ',Messages.findOne().messageBody);
-});
-
-//publish collection to client
-Meteor.publish('messages', function () {
-    return Messages.find();
+    try {
+        console.log('message count: ',Messages.find().count(),' ',Messages.findOne()._id);
+        console.log('message: ',Messages.findOne('kGDgciSQdgWuqr9Jy').text);
+    } catch (e) {
+        console.error(e);
+    }
+//    console.log('message count: ',Messages.find().count(),' ',Messages.findOne().messageBody);
 });
 
 Meteor.methods({
@@ -72,24 +81,31 @@ Meteor.methods({
 
         console.log('writeMessage start');
         writer = new nsq.Writer(nsqdHost, nsqdPort);
-        var wrapWConnect = Async.wrap(writer.connect);
+//        var wrapWConnect = Async.wrap(writer.connect);
+        writer.connect();
         writer.on('ready', Meteor.bindEnvironment(function () {
             console.log('writeMessage writer ready');
-            wrappedPublish = Async.wrap(writer.publish);
-            var response = wrappedPublish(topic, message, function (err) {
-                if (err) { return console.error(err.message); }
+//            wrappedPublish = Async.wrap(writer.publish);
+//            var response = wrappedPublish(topic, message, Meteor.bindEnvironment(function (err) {
+//                if (err) {
+//                    console.error('error in wrappedPublish');
+//                    return console.error(err.message);
+//                }
+            writer.publish(topic, message, Meteor.bindEnvironment(function (err) {
                 console.log('writer publish message sent successfully topic ',topic,' message ',message);
-                var wrapClose = Async.wrap(writer.close);
-            });
+            }));
+                console.log('writer publish message sent successfully topic ',topic,' message ',message);
+//                var wrapClose = Async.wrap(writer.close);
+//            }));
         }));
-        writer.on('closed', Meteor.bindEnvironment(function (err) {
+/*        writer.on('closed', Meteor.bindEnvironment(function (err) {
             if (err) {
                 Messages.insert({text:err});
             } else {
                 Messages.insert({text:'writer closed'});
             }
         }));
-        console.log('writeMessage end');
+*/        console.log('writeMessage end');
         return true;
     }
 });
