@@ -7,6 +7,5 @@
 meteor-platform
 nwdev:nsqjs
 
-npm-container
 mongo
 session

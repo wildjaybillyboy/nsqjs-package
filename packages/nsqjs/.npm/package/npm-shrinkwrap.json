@@ -120,8 +120,11 @@
                   "version": "1.0.3",
                   "dependencies": {
                     "fstream": {
-                      "version": "1.0.7",
+                      "version": "1.0.8",
                       "dependencies": {
+                        "graceful-fs": {
+                          "version": "4.1.2"
+                        },
                         "inherits": {
                           "version": "2.0.1"
                         }
@@ -174,7 +177,7 @@
                       "version": "1.0.0",
                       "dependencies": {
                         "lru-cache": {
-                          "version": "2.6.5"
+                          "version": "2.7.0"
                         },
                         "sigmund": {
                           "version": "1.0.1"
@@ -190,7 +193,7 @@
                       }
                     },
                     "nopt": {
-                      "version": "3.0.3",
+                      "version": "3.0.4",
                       "dependencies": {
                         "abbrev": {
                           "version": "1.0.7"
@@ -395,8 +398,11 @@
                   "version": "2.3.2",
                   "dependencies": {
                     "fstream": {
-                      "version": "1.0.7",
+                      "version": "1.0.8",
                       "dependencies": {
+                        "graceful-fs": {
+                          "version": "4.1.2"
+                        },
                         "inherits": {
                           "version": "2.0.1"
                         }
@@ -454,7 +460,7 @@
                       }
                     },
                     "nopt": {
-                      "version": "3.0.3",
+                      "version": "3.0.4",
                       "dependencies": {
                         "abbrev": {
                           "version": "1.0.7"

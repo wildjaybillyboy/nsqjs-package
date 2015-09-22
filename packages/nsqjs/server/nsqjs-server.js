@@ -13,7 +13,7 @@ https://github.com/meteorhacks/npm
 reader = {};
 writer = {};
 
-nsq = Meteor.npmRequire('nsqjs');
+nsq = Npm.require('nsqjs');
 
 //publish collection to client
 try {
@@ -26,46 +26,31 @@ try {
 
 Meteor.methods({
     'initReader' : function (topic, channel, options) {
-        /*
-        nsqjs Reader example
-        var reader = new nsq.Reader('sample_topic', 'test_channel', {
-            lookupdHTTPAddresses: '127.0.0.1:4161'
-        });
-        reader.connect();
-        reader.on('message', function (msg) {
-            console.log('Received message [%s]: %s', msg.id, msg.body.toString());
-            msg.finish();
-        });
-        */
-
         reader = new nsq.Reader(topic, channel, options);
         reader.connect();
         reader.on('message', Meteor.bindEnvironment(function (msg) {
-            Messages.insert({messageId:msg.id,messageBody:msg.body.toString()});
+            //edit to reader: attempt to pull json data
+            try {
+                msgJson = msg.json();
+            } catch (e) {
+                console.error('msg.json() error: ',e);
+            }
+            //save all provided message object information
+            var message = {
+                timestamp : msg.timestamp,
+                id : msg.id,
+                body : msg.body.toString(),
+                attempts : msg.attempts,
+                hasResponded : msg.hasResponded,
+                json : msgJson ? msgJson : false
+            };
+            Messages.insert(message);
             console.log('received message '+msg.id+': '+msg.body.toString());
             msg.finish();
         }));
     },
     //node.js simple writer example
     'writeMessage' : function (nsqdHost, nsqdPort, topic, message) {
-        /*
-        nsqjs Writer example
-
-        var nsq = require('nsqjs');
-        var w = new nsq.Writer('127.0.0.1', 4150);
-        w.connect();
-        w.on('ready', function () {
-          w.publish('sample_topic', 'Wu?', function (err) {
-            if (err) { return console.error(err.message); }
-            console.log('Message sent successfully');
-            w.close();
-          });
-        });
-        w.on('closed', function () {
-          console.log('Writer closed');
-        });
-        */
-
         writer = new nsq.Writer(nsqdHost, nsqdPort);
         writer.connect();
         writer.on('ready', Meteor.bindEnvironment(function () {

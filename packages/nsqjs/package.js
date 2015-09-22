@@ -10,11 +10,13 @@ Package.describe({
   documentation: 'README.md'
 });
 
+Npm.depends ({
+    nsqjs:"0.7.6"
+});
+
 Package.onUse(function(api) {
   api.versionsFrom('1.1.0.3');
-  api.use('meteorhacks:npm', 'server');
-  api.use(['npm-container', 'mongo'], 'server');
-  api.use('mongo', 'client');
+  api.use('mongo', ['client', 'server']);
   api.addFiles('lib/nsqjs-common.js', ['server', 'client']);
   api.addFiles('server/nsqjs-server.js', 'server');
   api.addFiles('client/nsqjs-client.js', 'client');

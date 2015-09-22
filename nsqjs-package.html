@@ -3,19 +3,19 @@
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
   {{> hello}}
 </body>
 
 <template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+  <button>post "sample_message"</button>
   <ul>
       <p>Messages:</p>
       <li>
           {{#each messages}}
-            <p>Current Message ID: {{messageId}}</p>
-            <p>Current Message: {{messageBody}}</p>
+            <p>Mongo id: {{_id}}</p>
+            <p>NSQ message id: {{id}}</p>
+            <p>Message: {{body}}</p>
+            <p>json: {{json}}</p>
           {{/each}}
       </li>
   </ul>

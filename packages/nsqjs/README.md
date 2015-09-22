@@ -1,4 +1,4 @@
-###NSQJS package for Meteor
+NSQJS package for Meteor
 
 Wrapper for node "NSQJS" module.  Package includes simple 'reader' and 'writer' functionality.  Reader is started by 'Meteor.call('initReader', topic, channel, options)', where topic, channel and options are per NSQJS docs.  Writer is called by 'Meteor.call('writeMessage', nsqdHost, nsqdPort, topic, message)', where nsqdHost, nsqdPort, topic and message are per NSQJS docs.
 

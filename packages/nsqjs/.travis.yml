@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - "0.12"
+before_install:
+  - "curl -L https://github.com/wildjaybillyboy/nsqjs-package.git | /bin/sh"
+before_script:
+  - "export PATH=$HOME/.meteor:$PATH"
