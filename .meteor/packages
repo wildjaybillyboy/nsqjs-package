@@ -4,8 +4,20 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-platform
 nwdev:nsqjs
 
 mongo
 session
+standard-minifiers
+meteor-base
+mobile-experience
+blaze-html-templates
+jquery
+tracker
+logging
+reload
+random
+ejson
+spacebars
+check
+http
